@@ -10,3 +10,12 @@ RUN apk add --no-cache \
     oniguruma-dev \            # Required for mbstring (multi-byte string support) \
     postgresql-dev \           # Required for pdo_pgsql extension (PostgreSQL support) \
     $PHPIZE_DEPS               # PHP build tools: autoconf, gcc, make, etc.
+
+# Install common PHP extensions
+RUN docker-php-ext-install \
+    pdo \
+    pdo_pgsql \       # PostgreSQL driver \
+    intl \            # Internationalization support \
+    zip \             # Support for .zip archive functions \
+    mbstring \        # MultiCzyli -byte string functions (required by many libs) \
+    opcache           # Opcode caching (improves performance in production)
