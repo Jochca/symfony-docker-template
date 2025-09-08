@@ -23,3 +23,14 @@ RUN docker-php-ext-install \
 # Install Composer by copying the binary from the official Composer image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Set working directory inside the container
+WORKDIR /var/www/html
+
+# Copy Symfony project files into the container
+COPY ./app/ /var/www/html
+
+# Install PHP dependencies with Composer
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Set proper permissions (only if running as non-root later)
+RUN chown -R www-data:www-data /var/www/html
