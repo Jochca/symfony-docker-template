@@ -34,3 +34,17 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Set proper permissions (only if running as non-root later)
 RUN chown -R www-data:www-data /var/www/html
+
+FROM php:8.3-fpm-alpine AS runtime
+
+# Set working directory inside the container
+WORKDIR /var/www/html
+
+# Copy the built app (code + vendor) from the builder stage
+COPY --from=builder /var/www/html /var/www/html
+
+# Expose port (for documentation only; Compose handles real mapping)
+EXPOSE 9000
+
+# Start PHP-FPM by default
+CMD ["php-fpm"]
