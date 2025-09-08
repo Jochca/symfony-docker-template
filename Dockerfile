@@ -19,3 +19,7 @@ RUN docker-php-ext-install \
     zip \             # Support for .zip archive functions \
     mbstring \        # MultiCzyli -byte string functions (required by many libs) \
     opcache           # Opcode caching (improves performance in production)
+
+# Install Composer by copying the binary from the official Composer image
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
