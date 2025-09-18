@@ -7,6 +7,9 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,11 +23,8 @@ jobs:
       - name: Install dependencies
         run: composer install --no-progress --prefer-dist
 
-      - name: Run PHP CS Fixer (dry-run)
-        run: vendor/bin/php-cs-fixer fix --dry-run --diff
-
-      - name: Run PHPStan
-        run: vendor/bin/phpstan analyse --memory-limit=1G
+      - name: Run Lint (phpstan + fixer + rector dry-run)
+        run: composer lint
 
       - name: Run PHPUnit
-        run: vendor/bin/phpunit --testdox
+        run: composer test
