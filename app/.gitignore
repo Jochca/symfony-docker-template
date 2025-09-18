@@ -1,0 +1,24 @@
+### Symfony ###
+/var/
+/vendor/
+/node_modules/
+/public/bundles/
+/.env.local
+/.env.local.php
+/.env.test.local
+/phpunit.xml
+/phpunit.xml.dist
+
+### Logs ###
+/*.log
+/logs/
+/*.cache
+
+### IDE stuff ###
+/.idea/
+/.vscode/
+/*.swp
+
+### OS junk ###
+.DS_Store
+Thumbs.db
