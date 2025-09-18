@@ -46,14 +46,22 @@ RUN chown -R www-data:www-data /var/www/html
 
 FROM php:8.3-fpm-alpine AS runtime
 
-# Set working directory inside the container
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy the built app (code + vendor) from the builder stage
+# Copy files from the builder stage
 COPY --from=builder /var/www/html /var/www/html
 
-# Expose port (for documentation only; Compose handles real mapping)
+# Change ownership to the non-root user
+# (Symfony needs write access to var/, cache/, logs/)
+RUN chown -R www-data:www-data /var/www/html
+
+# Switch to non-root user for security
+# Prevent the container from running as root in production
+USER www-data
+
+# Expose the FPM port
 EXPOSE 9000
 
-# Start PHP-FPM by default
+# Start PHP-FPM
 CMD ["php-fpm"]

@@ -1,12 +1,22 @@
 services:
   php:
-    image: your-ghcr-namespace/your-app:latest  # REPLACE with your actual image
+    image:
+      context: .
+      dockerfile: docker/php/Dockerfile
     container_name: symfony-php
     working_dir: /var/www/html
     environment:
       APP_ENV: prod
     expose:
       - "9000"
+    # Prevent the container from gaining additional privileges (e.g. via setuid binaries)
+    security_opt:
+      - no-new-privileges:true
+    # Make the container filesystem read-only
+    # Only /tmp is writable (required by PHP/session handling)
+    read_only: true
+    tmpfs:
+      - /tmp
 
   nginx:
     image: nginx:1.27-alpine
