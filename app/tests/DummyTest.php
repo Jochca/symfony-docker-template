@@ -1,8 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
-class DummyTest
-{
+use PHPUnit\Framework\TestCase;
 
+final class DummyTest extends TestCase
+{
+    public function testAlwaysTrue(): void
+    {
+        // @phpstan-ignore-next-line
+        $this->assertTrue(true);
+    }
 }
