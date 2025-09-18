@@ -6,6 +6,9 @@ on:
 
 jobs:
   quality:
+    defaults:
+      run:
+        working-directory: ./app
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
