@@ -7,10 +7,16 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./app:/var/www/html
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini:ro
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "9003:9003" # Xdebug
+    expose:
+      - "9000" # PHP-FPM
     environment:
       APP_ENV: dev
-    expose:
-      - "9000"
 
   nginx:
     image: nginx:1.27-alpine

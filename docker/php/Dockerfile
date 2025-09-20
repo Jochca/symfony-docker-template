@@ -46,6 +46,10 @@ RUN chown -R www-data:www-data /var/www/html
 
 FROM php:8.3-fpm-alpine AS runtime
 
+RUN apk add --no-cache $PHPIZE_DEPS linux-headers \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 # Set working directory
 WORKDIR /var/www/html
 
